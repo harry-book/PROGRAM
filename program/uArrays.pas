@@ -27,6 +27,7 @@ type
   public
    constructor Create(aRows, aCols : int32);
    function    T : tFloatArray;
+   function    dot_array(A : tFloatArray):tFloatArray;
    function    sigm():tFloatArray;
    procedure   random_val(sub_val : float);
    procedure   random_norm_val(c_val : uint32;sub_val : float);
@@ -35,7 +36,7 @@ type
    property    value[aRow, aCol : int32]:float read get_value write set_value;default;
  end;
 
- function  dot_farrays(A,B : tFloatArray):tFloatArray;
+ function  _dot_farrays(A,B : tFloatArray):tFloatArray;
  function  _transpose_farray(A : tFloatArray):tFloatArray;
  function  _sigm(x : float):float;
 
@@ -51,6 +52,11 @@ implementation
    GetMem(data,Rows*Cols*sizeof(float));
   end;
 
+  function  tFLoatArray.dot_array(A : tFloatArray):tFloatArray;
+  begin
+   Result := _dot_farrays(self,A);
+  end;
+
   function  tFloatArray.sigm():tFloatArray;
   var
    i : int32;
@@ -59,7 +65,7 @@ implementation
    R := tFloatArray.Create(rows, cols);
    for i:=0 to rows * cols-1 do
     R.data[i] := _sigm(data[i]);
-   Result := R; 
+   Result := R;
   end;
 
   function  tFloatArray.T : tFloatArray;
@@ -114,7 +120,7 @@ implementation
   end;
 
 // FUNCTIONS  ****************************************************
- function  dot_farrays(A,B : tFloatArray):tFloatArray;
+ function  _dot_farrays(A,B : tFloatArray):tFloatArray;
  var
   n,m,p,k,i,j : uint32;
   sum_v       : float;
