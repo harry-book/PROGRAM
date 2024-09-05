@@ -18,7 +18,9 @@ type
    hidden_inputs,
    hidden_outputs,
    final_inputs,
-   final_outputs  : tFloatArray;
+   final_outputs,
+   output_errors,
+   hidden_errors  : tFloatArray;
   public
    constructor Create(i_nodes,h_nodes,o_nodes : int32; l_grade : float);
    procedure   Init();
@@ -42,19 +44,27 @@ implementation
   begin
    wih.random_norm_val(hide_nodes,0.5);
    who.random_norm_val(out_nodes,0.5);
-   wih.printf_array;
+   wih.printf();
    writeln;
-   who.printf_array;
+   who.printf();
   end;
 
   procedure  tNeuroNet.Train(var a_inp,a_tar : tFloatArray);
+  var
+   A : tFloatArray;
   begin
    inputs         := a_inp.T();
    targets        := a_tar.T();
+
    hidden_inputs  := wih.dot_array(inputs);
    hidden_outputs := hidden_inputs.sigm();
    final_inputs   := who.dot_array(hidden_outputs);
    final_outputs  := final_inputs.sigm();
+
+   output_errors  := targets.sub_array(final_outputs);
+   A              := who.T();
+   hidden_errors  := A.dot_array(output_errors);
+
   end;
 
 end.
