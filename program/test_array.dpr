@@ -8,42 +8,23 @@ uses
   uArrays in 'uArrays.pas';
 
 const
-  data_path  = 'c:\APP_DELPHI\NEURO\bin_data\';
-  file_name  = 'mnist_train_100.bin';
-  SIZE_LINE  = 785;
-  chr_width  = 28;
-  chr_height = 28;
-  chr_size   = 784;
+  data_path   = '.\data\';
+  file_train  = 'mnist_train_100.csv';
+  file_test   = 'mnist_test_10.csv';
+  rec_size    = 785;
+  chr_size    = 28;
 
 var
- a,b,c,d   : tFloatArray;
+ A,B,C     : tFloatArray;
  N         : tNeuroNet;
- inp,test  : tByteArray;
+ inp       : tByteArray;
 begin
-{ a := tFloatArray.Create(2,3);
- a.random_norm_val(3,0.5);
- b := tFloatArray.Create(3,2);
- b.random_norm_val(3,0.5);}
-{ c := a.dot_array(b);
- a.printf_array;
- b.printf_array;
- c.printf_array;
- }
- //a.T.printf_array;
-
- { a[0,0] := 1.2;   a[0,1] := -1.4;  a[0,2] := 0.8;
- a[1,0] := -0.7;  a[1,1] := 0.1;   a[1,2] := -0.35;}
-// a.printf_array();
-
-
-{ N := tNeuroNet.Create(3,3,3,0.3);
- N.Init();
- N.Train(a,b);}
-
-  inp     := tByteArray.CreateFromBinFile(100,785,'.\\data\\mnist_train_100.bin');
-  //writeln(inp.RowCount);
-  test    := inp.GetArray(0,0,4,0);
-  test.printf();
-
+  inp := _load_csv(data_path + file_test).GetArray(0,0,-1,0);
+//  A   := inp.GetFloatArray(0,1,-1,-1);
+//  C   := inp.GetFloatArray(0,0,-1,0);
+  //B   := _scale_farray(A);
+  // B.printf_row(0);
+  inp.printf();
+//  A.printf;
   readln;
 end.
